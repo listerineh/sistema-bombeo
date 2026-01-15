@@ -1,6 +1,6 @@
-# 🚀 Sistema de Cálculo de Bombeo
-
 <div align="center">
+
+# 🚀 Sistema de Cálculo de Bombeo
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![PyQt6](https://img.shields.io/badge/PyQt6-6.10.2-green.svg)
@@ -405,19 +405,3 @@ Este software fue desarrollado para uso personal y educativo con ❤️ para Nay
 - ❌ Uso comercial sin permiso
 - ❌ Distribución como software propio
 - ❌ Eliminación de avisos de copyright
-
----
-
-<div align="center">
-
-## 🌟 ¡Gracias por usar el SistemaBombeo
-
-Sistema de cálculo hidráulico para bombeo con interfaz gráfica en PyQt6.
-
-## 📄 Licencia
-
-Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
-
-## 🚀 Características
-
-</div>
