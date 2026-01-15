@@ -134,62 +134,33 @@ jobs:
         path: SistemaBombeo-v${{ github.event.inputs.version }}-Linux.zip
         retention-days: 30
 
-  create-tag:
+  create-release:
     needs: [build-windows, build-macos, build-linux]
     runs-on: ubuntu-latest
     if: github.event.inputs.create_tag == 'true'
     
     steps:
-    - name: Debug secrets
-      run: |
-        echo "PAT exists: ${{ secrets.PAT != '' }}"
-        echo "GITHUB_TOKEN exists: ${{ secrets.GITHUB_TOKEN != '' }}"
-        echo "Repository: ${{ github.repository }}"
-    
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
-        fetch-depth: 0
-    
-    - name: Create and push tag
-      run: |
-        VERSION="${{ github.event.inputs.version }}"
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git tag -a "v$VERSION" -m "Release v$VERSION"
-        if [ "${{ secrets.PAT != '' }}" = "true" ]; then
-          echo "Using PAT for push"
-          git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}
-        else
-          echo "Using GITHUB_TOKEN for push"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-        fi
-        git push origin "v$VERSION"
-    
-    - name: Wait for release trigger
-      run: |
-        echo "Tag created, waiting for release trigger..."
-        sleep 30
-
-  create-release:
-    needs: [build-windows, build-macos, build-linux, create-tag]
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
-    
-    steps:
     - name: Download all artifacts
       uses: actions/download-artifact@v4
     
-    - name: Create release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          windows/SistemaBombeo-v${{ github.event.inputs.version }}-Windows.zip
-          macos/SistemaBombeo-v${{ github.event.inputs.version }}-macos.zip
+    - name: Install GitHub CLI
+      run: |
+        curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+        sudo apt update
+        sudo apt install gh
+    
+    - name: Create tag and release with GitHub CLI
+      run: |
+        VERSION="${{ github.event.inputs.version }}"
+        echo "Creating tag v$VERSION first..."
+        gh release create "v$VERSION" \
+          --title "Release v$VERSION" \
+          --notes "Release v$VERSION" \
+          --latest \
+          --generate-notes \
+          windows/SistemaBombeo-v${{ github.event.inputs.version }}-Windows.zip \
+          macos/SistemaBombeo-v${{ github.event.inputs.version }}-macos.zip \
           linux/SistemaBombeo-v${{ github.event.inputs.version }}-Linux.zip
-        draft: false
-        prerelease: false
-        generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
