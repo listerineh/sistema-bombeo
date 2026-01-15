@@ -373,8 +373,6 @@ Este software fue desarrollado para uso personal y educativo con ❤️ para Nay
 
 ## 🌟 ¡Gracias por usar el Sistema de Cálculo de Bombeo!
 
-**Desarrollado con ❤️ por Proyecto Nay**
-
-*Para soporte, preguntas o sugerencias, contacta al desarrollador.*
+*Para soporte, preguntas o sugerencias, contacta directamente al desarrollador.*
 
 </div>
