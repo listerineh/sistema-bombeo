@@ -13,6 +13,10 @@ Desarrollado con ❤️ para Nayehi
 
 </div>
 
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+
 ## 📋 Tabla de Contenidos
 
 - [🎯 Características Principales](#-características-principales)
@@ -29,6 +33,7 @@ Desarrollado con ❤️ para Nayehi
 ## 🎯 Características Principales
 
 ### 🧮 **Cálculos Hidráulicos Precisos**
+
 - **Número de Reynolds**: Determina el régimen de flujo
 - **Factor de Fricción**: Calculado según el número de Reynolds
 - **Velocidad del Fluido**: Basada en caudal y diámetro de tubería
@@ -38,6 +43,7 @@ Desarrollado con ❤️ para Nayehi
 - **NPSH Disponible**: Verificación contra cavitación
 
 ### 🎨 **Interfaz Gráfica Moderna**
+
 - **Tema Oscuro Profesional**: Reducción de fatiga visual
 - **Visualización Interactiva**: Diagrama esquemático del sistema
 - **Zoom y Navegación**: Controles para explorar el diagrama
@@ -45,6 +51,7 @@ Desarrollado con ❤️ para Nayehi
 - **Resultados Organizados**: Principales y detallados en pestañas
 
 ### 📊 **Visualización del Sistema**
+
 - **Diagrama Esquemático**: Representación visual del sistema
 - **Tanques de Entrada/Salida**: Con elevaciones etiquetadas
 - **Tuberías**: Con longitudes y orientaciones correctas
@@ -53,6 +60,7 @@ Desarrollado con ❤️ para Nayehi
 - **Referencia de Elevación 0**: Línea base para mediciones
 
 ### 🔧 **Configuración Flexible**
+
 - **Fluidos Predefinidos**: Agua, aceites, etc. con propiedades reales
 - **Múltiples Tramos**: Configuración de sistemas complejos
 - **Accesorios Variados**: Codos, válvulas, tees con factores K
@@ -62,6 +70,7 @@ Desarrollado con ❤️ para Nayehi
 ## 🔧 Requisitos del Sistema
 
 ### Mínimos Requeridos
+
 - **Sistema Operativo**: Windows 10+, macOS 10.14+, Ubuntu 18.04+
 - **Memoria RAM**: 4 GB mínimo
 - **Espacio en Disco**: 100 MB disponibles
@@ -69,6 +78,7 @@ Desarrollado con ❤️ para Nayehi
 - **Pantalla**: 1280x720 resolución mínima
 
 ### Para Desarrollo
+
 - **Python**: 3.8+ con pip
 - **Git**: Para clonar el repositorio
 - **Editor de Código**: VS Code, PyCharm, etc.
@@ -123,6 +133,7 @@ python main.py
 ### 🔧 **Paso 2: Agregar Tramos de Tubería**
 
 Para cada tramo:
+
 1. **Longitud**: En metros
 2. **Diámetro**: En metros
 3. **Orientación**: Horizontal o Vertical
@@ -132,6 +143,7 @@ Para cada tramo:
 ### 📦 **Paso 3: Configurar Accesorios**
 
 Selecciona los accesorios y sus cantidades:
+
 - **Entrada de Tanque**: Conexión inicial
 - **Codos**: Cambios de dirección (45°, 90°)
 - **Válvulas**: Control de flujo
@@ -148,6 +160,7 @@ Selecciona los accesorios y sus cantidades:
 ### 📊 **Interpretación de Resultados**
 
 #### Resultados Principales
+
 - **Ht (m)**: Carga total que debe vencer la bomba
 - **NPSHa (m)**: Altura de succión neta disponible
 - **Potencia (kW)**: Potencia requerida del motor
@@ -156,6 +169,7 @@ Selecciona los accesorios y sus cantidades:
 - **f**: Factor de fricción
 
 #### Resultados Detallados
+
 - **Altura de Elevación**: Diferencia de altura entre puntos
 - **Pérdidas Mayores**: Por fricción en tuberías
 - **Pérdidas Menores**: Por accesorios
@@ -168,11 +182,13 @@ Selecciona los accesorios y sus cantidades:
 El proyecto incluye scripts para construir ejecutables independientes:
 
 #### macOS/Linux
+
 ```bash
 ./build_package.sh
 ```
 
 #### Windows
+
 ```cmd
 build_package.bat
 ```
@@ -237,16 +253,19 @@ proyecto-nay/
 ### 🔬 **Fundamentos Teóricos**
 
 #### Ecuación de Bernoulli Generalizada
+
 ```
 Ht = (P2/ρg + Z2 + V²²/2g) - (P1/ρg + Z1 + V1²/2g) + hf
 ```
 
 #### Número de Reynolds
+
 ```
 Re = (ρ × V × D) / μ
 ```
 
 #### Factor de Fricción (Darcy-Weisbach)
+
 ```
 f = 0.316 / Re^0.25  (para flujo turbulento)
 ```
@@ -254,11 +273,13 @@ f = 0.316 / Re^0.25  (para flujo turbulento)
 ### 📊 **Pérdidas de Energía**
 
 #### Pérdidas Mayores (Fricción)
+
 ```
 hf = f × (L/D) × (V²/2g)
 ```
 
 #### Pérdidas Menores (Accesorios)
+
 ```
 hm = K × (V²/2g)
 ```
@@ -266,11 +287,13 @@ hm = K × (V²/2g)
 ### ⚡ **Potencia**
 
 #### Potencia Hidráulica
+
 ```
 Ph = ρ × g × Q × Ht
 ```
 
 #### Potencia de Bomba
+
 ```
 Pb = Ph / η
 ```
@@ -278,6 +301,7 @@ Pb = Ph / η
 ### 🌊 **NPSH**
 
 #### NPSH Disponible
+
 ```
 NPSHa = (Patm/ρg) - (Pv/ρg) - hf - hm - (V²/2g)
 ```
@@ -285,24 +309,28 @@ NPSHa = (Patm/ρg) - (Pv/ρg) - hf - hm - (V²/2g)
 ## 🎨 Características de la Interfaz
 
 ### 🖼️ **Diseño Visual**
+
 - **Tema Oscuro**: Fondo #2b2b2b con texto blanco
 - **Colores Vibrantes**: Resaltados en verde, azul, amarillo
 - **Tipografía**: Arial, sans-serif para legibilidad
 - **Iconos**: Símbolos intuitivos para cada función
 
 ### 📱 **Layout Responsivo**
+
 - **Splitter Horizontal**: 60% entrada / 40% resultados
 - **Pestañas**: Resultados y visualización
 - **Scroll**: Para contenido extenso
 - **Pantalla Completa**: Maximizado por defecto
 
 ### 🎮 **Controles Interactivos**
+
 - **Zoom**: Botones +20% / -20% / Reset
 - **Navegación**: Click y arrastrar en visualización
 - **Validación**: Entrada de datos en tiempo real
 - **Autocompletado**: Sugerencias para campos comunes
 
 ### 📊 **Visualización del Sistema**
+
 - **Escala**: 60 pixels por metro
 - **Tanques**: 50x50px con etiquetas
 - **Tuberías**: Líneas con grosor proporcional
@@ -314,39 +342,48 @@ NPSHa = (Patm/ρg) - (Pv/ρg) - hf - hm - (V²/2g)
 ### ❌ **Errores Comunes**
 
 #### "La aplicación no inicia"
+
 **Windows**: "SistemaBombeo no puede abrirse porque es de un desarrollador no identificado"
+
 - **Solución**: Clic derecho → Abrir → Abrir de todos modos
 
 **macOS**: "La aplicación está dañada"
+
 - **Solución**: `sudo xattr -rd com.apple.quarantine SistemaBombeo`
 
 #### "Error al cargar datos"
+
 - **Causa**: Archivos CSV faltantes
 - **Solución**: Verificar que `_internal/data/` contenga los 3 archivos CSV
 
 #### "Cálculos incorrectos"
+
 - **Causa**: Unidades incorrectas o datos inválidos
 - **Solución**: Revisar que todos los campos tengan valores válidos
 
 ### ⚠️ **Advertencias**
 
 #### "Valores fuera de rango"
+
 - **Caudal**: Debe ser positivo
 - **Diámetro**: Entre 0.01 y 2.0 metros
 - **Eficiencia**: Entre 0.1 y 1.0 (10-100%)
 
 #### "Sistema no configurado"
+
 - **Causa**: Faltan datos obligatorios
 - **Solución**: Completar todos los campos requeridos
 
 ### 🔧 **Mantenimiento**
 
 #### Actualización de Datos
+
 - **Fluidos**: Editar `src/data/fluidos.csv`
 - **Accesorios**: Editar `src/data/accesorios.csv`
 - **Constantes**: Editar `src/data/constantes.csv`
 
 #### Rendimiento
+
 - **Cerrar aplicaciones** innecesarias
 - **Reiniciar** después de uso prolongado
 - **Verificar** espacio en disco disponible
@@ -358,11 +395,13 @@ Copyright © 2026 Listerineh
 Este software fue desarrollado para uso personal y educativo con ❤️ para Nayehi.
 
 ### 📋 Permisos
+
 - ✅ Uso personal y educativo
 - ✅ Modificación del código fuente
 - ✅ Distribución de ejecutables modificados
 
 ### 🚫 Restricciones
+
 - ❌ Uso comercial sin permiso
 - ❌ Distribución como software propio
 - ❌ Eliminación de avisos de copyright
@@ -371,8 +410,14 @@ Este software fue desarrollado para uso personal y educativo con ❤️ para Nay
 
 <div align="center">
 
-## 🌟 ¡Gracias por usar el Sistema de Cálculo de Bombeo!
+## 🌟 ¡Gracias por usar el SistemaBombeo
 
-*Para soporte, preguntas o sugerencias, contacta directamente al desarrollador.*
+Sistema de cálculo hidráulico para bombeo con interfaz gráfica en PyQt6.
+
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+
+## 🚀 Características
 
 </div>
