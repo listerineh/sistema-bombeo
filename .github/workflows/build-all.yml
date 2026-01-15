@@ -70,7 +70,8 @@ jobs:
       run: |
         # Use system Python and disable code signing for embedded Python
         export PYTHONNOUSERSITE=1
-        pyinstaller --onedir --windowed --add-data "src/data:data" --name=SistemaBombeo --noupx main.py
+        export MACOSX_DEPLOYMENT_TARGET=10.14
+        pyinstaller --onedir --windowed --add-data "src/data:data" --name=SistemaBombeo --noupx --exclude-module tkinter --exclude-module matplotlib --exclude-module PIL --exclude-module numpy --exclude-module scipy --exclude-module pandas --strip main.py
     
     - name: Create macOS ZIP
       run: |
