@@ -1,10 +1,6 @@
 name: Build All Platforms
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
     inputs:
       create_tag:
@@ -147,7 +143,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.PAT }}
     
     - name: Create and push tag
       run: |
@@ -156,6 +152,8 @@ jobs:
         git config --local user.name "GitHub Action"
         git tag -a "v$VERSION" -m "Release v$VERSION"
         git push origin "v$VERSION"
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT }}
     
     - name: Wait for release trigger
       run: |
