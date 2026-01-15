@@ -1,0 +1,151 @@
+name: Build All Platforms
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  release:
+    types: [ published ]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install PyQt6==6.10.2
+        pip install PyInstaller==6.18.0
+    
+    - name: Build Windows executable
+      run: |
+        pyinstaller --windowed --onefile --add-data "src/data;data" --name=SistemaBombeo main.py
+    
+    - name: Create Windows ZIP
+      run: |
+        mkdir windows-package
+        copy SistemaBombeo.exe windows-package\
+        xcopy /E /I src\data windows-package\data
+        cd windows-package
+        7z a -tzip ../SistemaBombeo-v1.0-Windows.zip *
+        cd ..
+    
+    - name: Upload Windows artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-executable
+        path: SistemaBombeo-v1.0-Windows.zip
+        retention-days: 30
+
+  build-macos:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install PyQt6==6.10.2
+        pip install PyInstaller==6.18.0
+    
+    - name: Build macOS executable
+      run: |
+        pyinstaller --windowed --onefile --add-data "src/data:data" --name=SistemaBombeo main.py
+    
+    - name: Create macOS ZIP
+      run: |
+        mkdir macos-package
+        cp SistemaBombeo macos-package/
+        cp -r src/data macos-package/
+        cd macos-package
+        zip -r ../SistemaBombeo-v1.0-macos.zip *
+        cd ..
+    
+    - name: Upload macOS artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: macos-executable
+        path: SistemaBombeo-v1.0-macos.zip
+        retention-days: 30
+
+  build-linux:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-pyqt6 python3-dev
+    
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install PyInstaller==6.18.0
+    
+    - name: Build Linux executable
+      run: |
+        pyinstaller --windowed --onefile --add-data "src/data:data" --name=SistemaBombeo main.py
+    
+    - name: Create Linux ZIP
+      run: |
+        mkdir linux-package
+        cp SistemaBombeo linux-package/
+        cp -r src/data linux-package/
+        cd linux-package
+        zip -r ../SistemaBombeo-v1.0-Linux.zip *
+        cd ..
+    
+    - name: Upload Linux artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: linux-executable
+        path: SistemaBombeo-v1.0-Linux.zip
+        retention-days: 30
+
+  create-release:
+    needs: [build-windows, build-macos, build-linux]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+    
+    - name: Create release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          windows-executable/SistemaBombeo-v1.0-Windows.zip
+          macos-executable/SistemaBombeo-v1.0-macos.zip
+          linux-executable/SistemaBombeo-v1.0-Linux.zip
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

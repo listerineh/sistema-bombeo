@@ -1,0 +1,14 @@
+# Sistema de Cálculo de Bombeo - Dependencias
+# PyQt6 - Framework GUI principal
+PyQt6==6.10.2
+
+# PyInstaller - Herramienta de empaquetado
+PyInstaller==6.18.0
+
+# Dependencias del sistema (generalmente incluidas con Python)
+# math - Cálculos matemáticos
+# os - Interacción con sistema operativo  
+# sys - Funciones del sistema
+# csv - Manejo de archivos CSV
+# typing - Tipado estático
+# pathlib - Rutas de archivos modernas

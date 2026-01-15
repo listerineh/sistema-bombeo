@@ -1,0 +1,239 @@
+name: Build macOS Executable
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  release:
+    types: [ published ]
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install PyQt6==6.10.2
+        pip install PyInstaller==6.18.0
+    
+    - name: Create build spec
+      run: |
+        # Create PyInstaller spec file for macOS
+        cat > bombeo.spec << 'EOF'
+        # -*- mode: python ; coding: utf-8 -*-
+
+        block_cipher = None
+
+        a = Analysis(
+            ['main.py'],
+            pathex=[],
+            binaries=[],
+            datas=[
+                ('src/data/accesorios.csv', 'data'),
+                ('src/data/constantes.csv', 'data'),
+                ('src/data/fluidos.csv', 'data'),
+            ],
+            hiddenimports=[
+                'PyQt6.QtCore',
+                'PyQt6.QtWidgets', 
+                'PyQt6.QtGui',
+                'PyQt6.QtCore.Qt',
+                'PyQt6.QtWidgets.QApplication',
+                'PyQt6.QtWidgets.QMainWindow',
+                'PyQt6.QtWidgets.QWidget',
+                'PyQt6.QtWidgets.QVBoxLayout',
+                'PyQt6.QtWidgets.QHBoxLayout',
+                'PyQt6.QtWidgets.QLabel',
+                'PyQt6.QtWidgets.QPushButton',
+                'PyQt6.QtWidgets.QGroupBox',
+                'PyQt6.QtWidgets.QLineEdit',
+                'PyQt6.QtWidgets.QDoubleSpinBox',
+                'PyQt6.QtWidgets.QSpinBox',
+                'PyQt6.QtWidgets.QComboBox',
+                'PyQt6.QtWidgets.QCheckBox',
+                'PyQt6.QtWidgets.QScrollArea',
+                'PyQt6.QtWidgets.QTabWidget',
+                'PyQt6.QtWidgets.QTableWidget',
+                'PyQt6.QtWidgets.QHeaderView',
+                'PyQt6.QtWidgets.QSplitter',
+                'PyQt6.QtWidgets.QStatusBar',
+                'PyQt6.QtWidgets.QMenuBar',
+                'PyQt6.QtWidgets.QMessageBox',
+                'PyQt6.QtWidgets.QGraphicsView',
+                'PyQt6.QtWidgets.QGraphicsScene',
+                'PyQt6.QtWidgets.QGraphicsItem',
+                'PyQt6.QtWidgets.QGraphicsRectItem',
+                'PyQt6.QtWidgets.QGraphicsEllipseItem',
+                'PyQt6.QtWidgets.QGraphicsTextItem',
+                'PyQt6.QtWidgets.QGraphicsLineItem',
+                'PyQt6.QtWidgets.QGraphicsPolygonItem',
+                'PyQt6.QtCore.pyqtSignal',
+                'PyQt6.QtCore.QPointF',
+                'PyQt6.QtGui.QPen',
+                'PyQt6.QtGui.QBrush',
+                'PyQt6.QtGui.QColor',
+                'PyQt6.QtGui.QFont',
+                'PyQt6.QtGui.QPainter',
+                'PyQt6.QtGui.QPolygonF',
+            ],
+            hookspath=[],
+            hooksconfig={},
+            runtime_hooks=[],
+            excludes=[],
+            win_no_prefer_redirects=False,
+            win_private_assemblies=False,
+            cipher=block_cipher,
+            noarchive=False,
+        )
+
+        pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+
+        exe = EXE(
+            pyz,
+            a.scripts,
+            [],
+            exclude_binaries=True,
+            name='SistemaBombeo',
+            debug=False,
+            bootloader_ignore_signals=False,
+            strip=False,
+            upx=True,
+            console=False,
+            disable_windowed_traceback=False,
+            argv_emulation=False,
+            target_arch=None,
+            codesign_identity=None,
+            entitlements_file=None,
+        )
+
+        coll = COLLECT(
+            exe,
+            a.binaries,
+            a.zipfiles,
+            a.datas,
+            strip=False,
+            upx=True,
+            upx_exclude=[],
+            name='SistemaBombeo',
+        )
+        EOF
+    
+    - name: Build executable
+      run: |
+        pyinstaller bombeo.spec
+    
+    - name: Create test script
+      run: |
+        # Create test script for verification
+        cat > test_executable.py << 'EOF'
+        #!/usr/bin/env python3
+        """
+        Script de prueba para verificar que el ejecutable funciona correctamente
+        """
+        import subprocess
+        import sys
+        import os
+
+        def test_executable():
+            """Prueba el ejecutable del Sistema de Bombeo"""
+            exe_path = "./SistemaBombeo/SistemaBombeo"
+            
+            print("🧪 Probando el ejecutable del Sistema de Bombeo...")
+            print(f"📍 Ruta: {os.path.abspath(exe_path)}")
+            
+            if os.path.exists(exe_path):
+                size = os.path.getsize(exe_path) / 1024 / 1024
+                print(f"📊 Tamaño: {size:.1f} MB")
+            else:
+                print("❌ El ejecutable no existe")
+                return False
+            
+            try:
+                # Verificar que sea ejecutable
+                if not os.access(exe_path, os.X_OK):
+                    print("❌ El archivo no es ejecutable")
+                    return False
+                
+                # Verificar datos CSV
+                data_dir = "./SistemaBombeo/_internal/data"
+                csv_files = ["accesorios.csv", "constantes.csv", "fluidos.csv"]
+                
+                print("\n📋 Verificando archivos de datos:")
+                for csv_file in csv_files:
+                    csv_path = os.path.join(data_dir, csv_file)
+                    if os.path.exists(csv_path):
+                        size = os.path.getsize(csv_path)
+                        print(f"✅ {csv_file} ({size} bytes)")
+                    else:
+                        print(f"❌ {csv_file} (no encontrado)")
+                        return False
+                
+                print("\n🎉 ¡Ejecutable verificado exitosamente!")
+                print("🚀 El ejecutable está listo para ser distribuido")
+                return True
+                
+            except Exception as e:
+                print(f"❌ Error durante la verificación: {e}")
+                return False
+
+        if __name__ == "__main__":
+            success = test_executable()
+            sys.exit(0 if success else 1)
+        EOF
+    
+    - name: Test executable
+      run: |
+        cd SistemaBombeo
+        python ../test_executable.py
+    
+    - name: Create distribution package
+      run: |
+        # Create ZIP for distribution
+        cd SistemaBombeo
+        zip -r ../SistemaBombeo-v1.0-macos.zip *
+        cd ..
+    
+    - name: Upload executable artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: macos-executable
+        path: SistemaBombeo/
+        retention-days: 30
+    
+    - name: Upload ZIP artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: macos-zip
+        path: SistemaBombeo-v1.0-macos.zip
+        retention-days: 30
+    
+    - name: Create release (if tag)
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          SistemaBombeo-v1.0-macos.zip
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
