@@ -68,7 +68,9 @@ jobs:
     
     - name: Build macOS executable
       run: |
-        pyinstaller --onedir --windowed --add-data "src/data:data" --name=SistemaBombeo main.py
+        # Use system Python and disable code signing for embedded Python
+        export PYTHONNOUSERSITE=1
+        pyinstaller --onedir --windowed --add-data "src/data:data" --name=SistemaBombeo --noupx main.py
     
     - name: Create macOS ZIP
       run: |
