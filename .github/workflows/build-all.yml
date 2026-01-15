@@ -30,13 +30,13 @@ jobs:
     
     - name: Build Windows executable
       run: |
-        pyinstaller --windowed --onefile --add-data "src/data;data" --name=SistemaBombeo main.py
+        pyinstaller --onedir --windowed --add-data "src/data;data" --name=SistemaBombeo main.py
     
     - name: Create Windows ZIP
       run: |
         mkdir windows-package
-        copy SistemaBombeo.exe windows-package\
-        xcopy /E /I src\data windows-package\data
+        xcopy /E /I dist\SistemaBombeo windows-package\SistemaBombeo
+        xcopy /E /I src\data windows-package\SistemaBombeo\data
         cd windows-package
         7z a -tzip ../SistemaBombeo-v1.0-Windows.zip *
         cd ..
