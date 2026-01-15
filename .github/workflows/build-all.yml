@@ -44,7 +44,7 @@ jobs:
     - name: Upload Windows artifact
       uses: actions/upload-artifact@v4
       with:
-        name: windows-executable
+        name: windows
         path: SistemaBombeo-v1.0-Windows.zip
         retention-days: 30
 
@@ -82,7 +82,7 @@ jobs:
     - name: Upload macOS artifact
       uses: actions/upload-artifact@v4
       with:
-        name: macos-executable
+        name: macos
         path: SistemaBombeo-v1.0-macos.zip
         retention-days: 30
 
@@ -124,7 +124,7 @@ jobs:
     - name: Upload Linux artifact
       uses: actions/upload-artifact@v4
       with:
-        name: linux-executable
+        name: linux
         path: SistemaBombeo-v1.0-Linux.zip
         retention-days: 30
 
@@ -141,9 +141,9 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          windows-executable/SistemaBombeo-v1.0-Windows.zip
-          macos-executable/SistemaBombeo-v1.0-macos.zip
-          linux-executable/SistemaBombeo-v1.0-Linux.zip
+          windows/SistemaBombeo-v1.0-Windows.zip
+          macos/SistemaBombeo-v1.0-macos.zip
+          linux/SistemaBombeo-v1.0-Linux.zip
         draft: false
         prerelease: false
         generate_release_notes: true

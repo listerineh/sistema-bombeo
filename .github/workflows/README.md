@@ -1,65 +1,39 @@
-# 🚀 GitHub Actions Workflows
+# 🚀 GitHub Actions Workflow
 
-Este directorio contiene los workflows de GitHub Actions para construir automáticamente los ejecutables del Sistema de Cálculo de Bombeo para diferentes plataformas.
+Este directorio contiene el workflow de GitHub Actions para construir automáticamente los ejecutables del Sistema de Cálculo de Bombeo para todas las plataformas.
 
-## 📋 Workflows Disponibles
-
-### 🔨 `build-windows.yml`
-- **Plataforma:** Windows Server 2019/2022
-- **Python:** 3.11
-- **Salida:** `SistemaBombeo.exe` + ZIP
-- **Características:**
-  - Build completo con PyInstaller
-  - Verificación automática del ejecutable
-  - Creación de paquete ZIP para distribución
-  - Upload de artifacts por 30 días
-  - Release automático en tags
-
-### 🍎 `build-macos.yml`
-- **Plataforma:** macOS 11/12
-- **Python:** 3.11
-- **Salida:** `SistemaBombeo` + ZIP
-- **Características:**
-  - Build completo con PyInstaller
-  - Verificación automática del ejecutable
-  - Creación de paquete ZIP para distribución
-  - Upload de artifacts por 30 días
-  - Release automático en tags
-
-### 🐧 `build-linux.yml` (en build-all.yml)
-- **Plataforma:** Ubuntu 20.04/22.04
-- **Python:** 3.11
-- **Salida:** `SistemaBombeo` + ZIP
-- **Características:**
-  - Build completo con PyInstaller
-  - Creación de paquete ZIP para distribución
-  - Upload de artifacts por 30 días
+## 📋 Workflow Disponible
 
 ### 🔄 `build-all.yml`
-- **Plataformas:** Windows, macOS, Linux
+- **Plataformas:** Windows, macOS, Linux (simultáneo)
+- **Python:** 3.11
 - **Ejecución:** Paralela en 3 jobs
 - **Salida:** 3 archivos ZIP + release automático
 - **Características:**
   - Builds simultáneos para todas las plataformas
-  - Release automático con todos los ejecutables
+  - Verificación automática de ejecutables
+  - Creación de paquetes ZIP para distribución
+  - Upload de artifacts por 30 días
+  - Release automático en tags
   - Notas de release generadas automáticamente
 
-## 🎯 Cómo Usar los Workflows
+## 🎯 Cómo Usar el Workflow
 
-### **1. Build Manual**
+### **1. Build Automático**
 ```bash
 # Push al repositorio
 git push origin main
 
 # O ejecutar manualmente desde GitHub Actions
-# Repository → Actions → Select workflow → Run workflow
+# Repository → Actions → build-all → Run workflow
 ```
 
 ### **2. Build Automático**
-Los workflows se ejecutan automáticamente en:
+El workflow se ejecuta automáticamente en:
 - **Push** a rama `main`
 - **Pull Request** a rama `main`
 - **Release** (tags)
+- **Ejecución manual** (workflow_dispatch)
 
 ### **3. Release Automático**
 ```bash
@@ -72,17 +46,15 @@ git push origin v1.0.0
 
 ## 📦 Artefacts Generados
 
-### **Windows:**
-- `windows-executable`: `SistemaBombeo-v1.0-Windows.zip`
-- Contiene: `SistemaBombeo.exe` + `_internal/data/`
+### **🔄 build-all.yml (Completo):**
+- **windows:** `SistemaBombeo-v1.0-Windows.zip`
+- **macos:** `SistemaBombeo-v1.0-macos.zip`
+- **linux:** `SistemaBombeo-v1.0-Linux.zip`
 
-### **macOS:**
-- `macos-executable`: `SistemaBombeo-v1.0-macos.zip`
-- Contiene: `SistemaBombeo` + `_internal/data/`
-
-### **Linux:**
-- `linux-executable`: `SistemaBombeo-v1.0-Linux.zip`
-- Contiene: `SistemaBombeo` + `_internal/data/`
+### **Contenido de cada ZIP:**
+- **Windows:** `SistemaBombeo.exe` + `_internal/data/`
+- **macOS:** `SistemaBombeo` + `_internal/data/`
+- **Linux:** `SistemaBombeo` + `_internal/data/`
 
 ## 🔧 Configuración
 
@@ -104,6 +76,7 @@ git push origin v1.0.0
 | Windows    | 5-8 minutos    | 2-3 minutos      |
 | macOS      | 4-6 minutos    | 1-2 minutos      |
 | Linux      | 3-5 minutos    | 1-2 minutos      |
+| **Total**  | **10-15 min**  | **4-7 min**      |
 
 ## 🚀 Flujo de Trabajo Recomendado
 
@@ -133,12 +106,13 @@ git push origin v1.0.0 --tags
 
 ### **Verificar Builds:**
 1. GitHub → Repository → Actions
-2. Seleccionar workflow
+2. Seleccionar workflow `build-all`
 3. Ver logs y artifacts
 
 ### **Descargar Artefacts:**
 1. Actions → Select workflow run
 2. Artifacts section → Download
+3. Elegir plataforma: windows, macos, linux
 
 ### **Verificar Ejecutables:**
 - Los ejecutables se prueban automáticamente
@@ -148,7 +122,7 @@ git push origin v1.0.0 --tags
 ## 🛠️ Personalización
 
 ### **Modificar Versiones:**
-Editar en cada workflow:
+Editar en el workflow:
 ```yaml
 pip install PyQt6==6.10.2
 pip install PyInstaller==6.18.0
@@ -164,6 +138,11 @@ python-version: '3.11'
 retention-days: 30
 ```
 
+### **Cambiar Nombres de Artifacts:**
+```yaml
+name: windows  # o macos, linux
+```
+
 ## 📝 Notas Importantes
 
 - **Costo:** GitHub Actions es gratuito para repositorios públicos
@@ -171,7 +150,25 @@ retention-days: 30
 - **Storage:** Los artifacts se eliminan automáticamente
 - **Seguridad:** Los builds se ejecutan en entornos aislados
 - **Reproducibilidad:** Los builds son consistentes y versionados
+- **Eficiencia:** Un solo workflow para todas las plataformas
+
+## 🎯 Ventajas del Diseño Actual
+
+### **✨ Simplicidad:**
+- **Un solo workflow** que maneja todo
+- **Menos mantenimiento** de configuración
+- **Fácil de entender** y modificar
+
+### **✨ Eficiencia:**
+- **Ejecución paralela** de las 3 plataformas
+- **Menos tiempo total** de build
+- **Optimización** de recursos
+
+### **✨ Consistencia:**
+- **Misma configuración** para todas las plataformas
+- **Resultados uniformes** y predecibles
+- **Menos posibilidades** de errores
 
 ---
 
-**🎉 Con estos workflows, puedes construir automáticamente ejecutables para todas las plataformas sin necesidad de tener máquinas Windows o Linux físicas!**
+**🎉 Con este único workflow, puedes construir automáticamente ejecutables para todas las plataformas sin complicaciones!**
