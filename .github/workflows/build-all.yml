@@ -68,10 +68,10 @@ jobs:
     
     - name: Build macOS executable
       run: |
-        # Use system Python and disable code signing for embedded Python
+        # Use system Python and exclude PyQt6 from bundle
         export PYTHONNOUSERSITE=1
         export MACOSX_DEPLOYMENT_TARGET=10.14
-        pyinstaller --onedir --windowed --add-data "src/data:data" --name=SistemaBombeo --noupx --exclude-module tkinter --exclude-module matplotlib --exclude-module PIL --exclude-module numpy --exclude-module scipy --exclude-module pandas --strip main.py
+        pyinstaller --onedir --windowed --add-data "src/data:data" --name=SistemaBombeo --noupx --exclude-module PyQt6 --exclude-module tkinter --exclude-module matplotlib --exclude-module PIL --exclude-module numpy --exclude-module scipy --exclude-module pandas --strip main.py
     
     - name: Create macOS ZIP
       run: |

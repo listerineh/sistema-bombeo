@@ -1,5 +1,0 @@
-constante,valor,unidad,descripcion
-gravedad,9.81,m/s²,Aceleración gravitacional terrestre
-presion_atmosferica,101325,Pa,Presión atmosférica estándar
-presion_vapor_agua_20C,2338.8,Pa,Presión de vapor del agua a 20°C
-eficiencia_bomba_default,0.70,decimal,Eficiencia típica de bomba centrífuga

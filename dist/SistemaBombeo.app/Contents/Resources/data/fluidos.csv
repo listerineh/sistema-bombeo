@@ -1,6 +1,0 @@
-nombre,densidad,viscosidad,presion_vapor,temperatura_C,descripcion
-agua,1000,0.001,2338.8,20,Agua a 20°C
-aceite_ligero,850,0.03,1000,25,Aceite lubricante ligero
-glicerina,1260,1.5,10,20,Glicerina a 20°C
-petroleo_crudo,860,0.01,5000,15,Petróleo crudo típico
-etanol,789,0.0012,5900,25,Etanol a 25°C
