@@ -42,7 +42,7 @@ jobs:
         cd ..
     
     - name: Upload Windows artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: windows-executable
         path: SistemaBombeo-v1.0-Windows.zip
@@ -80,7 +80,7 @@ jobs:
         cd ..
     
     - name: Upload macOS artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: macos-executable
         path: SistemaBombeo-v1.0-macos.zip
@@ -122,7 +122,7 @@ jobs:
         cd ..
     
     - name: Upload Linux artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: linux-executable
         path: SistemaBombeo-v1.0-Linux.zip
@@ -135,7 +135,7 @@ jobs:
     
     steps:
     - name: Download all artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
     
     - name: Create release
       uses: softprops/action-gh-release@v1
