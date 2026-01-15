@@ -68,13 +68,13 @@ jobs:
     
     - name: Build macOS executable
       run: |
-        pyinstaller --windowed --onefile --add-data "src/data:data" --name=SistemaBombeo main.py
+        pyinstaller --onedir --windowed --add-data "src/data:data" --name=SistemaBombeo main.py
     
     - name: Create macOS ZIP
       run: |
         mkdir macos-package
-        cp SistemaBombeo macos-package/
-        cp -r src/data macos-package/
+        cp -r dist/SistemaBombeo macos-package/
+        cp -r src/data macos-package/SistemaBombeo/
         cd macos-package
         zip -r ../SistemaBombeo-v1.0-macos.zip *
         cd ..
@@ -110,13 +110,13 @@ jobs:
     
     - name: Build Linux executable
       run: |
-        pyinstaller --windowed --onefile --add-data "src/data:data" --name=SistemaBombeo main.py
+        pyinstaller --onedir --windowed --add-data "src/data:data" --name=SistemaBombeo main.py
     
     - name: Create Linux ZIP
       run: |
         mkdir linux-package
-        cp SistemaBombeo linux-package/
-        cp -r src/data linux-package/
+        cp -r dist/SistemaBombeo linux-package/
+        cp -r src/data linux-package/SistemaBombeo/
         cd linux-package
         zip -r ../SistemaBombeo-v1.0-Linux.zip *
         cd ..
