@@ -140,10 +140,16 @@ jobs:
     if: github.event.inputs.create_tag == 'true'
     
     steps:
+    - name: Debug secrets
+      run: |
+        echo "PAT exists: ${{ secrets.PAT != '' }}"
+        echo "GITHUB_TOKEN exists: ${{ secrets.GITHUB_TOKEN != '' }}"
+        echo "Repository: ${{ github.repository }}"
+    
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.PAT }}
+        token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         fetch-depth: 0
     
     - name: Create and push tag
