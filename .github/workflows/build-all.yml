@@ -158,7 +158,13 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git tag -a "v$VERSION" -m "Release v$VERSION"
-        git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}
+        if [ "${{ secrets.PAT != '' }}" = "true" ]; then
+          echo "Using PAT for push"
+          git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}
+        else
+          echo "Using GITHUB_TOKEN for push"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+        fi
         git push origin "v$VERSION"
     
     - name: Wait for release trigger
