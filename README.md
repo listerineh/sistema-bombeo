@@ -6,19 +6,44 @@
 ![PyQt6](https://img.shields.io/badge/PyQt6-6.10.2-green.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)
+![Build](https://img.shields.io/badge/Build-Passing-brightgreen.svg)
+![Version](https://img.shields.io/badge/Version-v1.0.0-blue.svg)
 
-*Aplicación de escritorio para calcular parámetros de bombeo en sistemas de tuberías sin lecho poroso*
+---
 
-Desarrollado con ❤️ para Nayehi
+*Aplicación de escritorio profesional para calcular parámetros de bombeo en sistemas de tuberías sin lecho poroso*
 
-</div>
+**Desarrollado con ❤️ para Nayehi**
+
+---
+
+## 📥 Descargar Ejecutables
+
+### 🎯 **Descarga Rápida**
+
+Para descargar los ejecutables listos para usar, ve al último [release](../../releases/latest) en GitHub y descarga el archivo correspondiente a tu plataforma:
+
+| Plataforma | Archivo | Instrucciones |
+|------------|---------|---------------|
+| ![Windows](https://img.shields.io/badge/Windows-0078D4?style=flat-square&logo=windows&logoColor=white) **Windows** | `SistemaBombeo-vX.X.X-Windows.zip` | Descomprime y ejecuta `SistemaBombeo.exe` |
+| ![macOS](https://img.shields.io/badge/macOS-000000?style=flat-square&logo=apple&logoColor=white) **macOS** | `SistemaBombeo-vX.X.X-macos.zip` | Descomprime y ejecuta `SistemaBombeo.app` |
+| ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black) **Linux** | `SistemaBombeo-vX.X.X-Linux.zip` | Descomprime y ejecuta `SistemaBombeo` |
+
+> 💡 **Tip**: Los ejecutables incluyen todas las dependencias necesarias. No requiere instalación de Python o PyQt6.
+
+---
 
 ## 📄 Licencia
 
 Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
+---
+
+</div>
+
 ## 📋 Tabla de Contenidos
 
+- [📥 Descargar Ejecutables](#-descargar-ejecutables)
 - [🎯 Características Principales](#-características-principales)
 - [🔧 Requisitos del Sistema](#-requisitos-del-sistema)
 - [🚀 Instalación Rápida](#-instalación-rápida)
@@ -34,54 +59,132 @@ Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENS
 
 ### 🧮 **Cálculos Hidráulicos Precisos**
 
-- **Número de Reynolds**: Determina el régimen de flujo
-- **Factor de Fricción**: Calculado según el número de Reynolds
-- **Velocidad del Fluido**: Basada en caudal y diámetro de tubería
-- **Pérdidas de Energía**: Mayores (fricción) y menores (accesorios)
-- **Carga Total de Bomba (Ht)**: Altura manométrica total requerida
-- **Potencia Requerida**: Hidráulica y potencia de bomba
-- **NPSH Disponible**: Verificación contra cavitación
+| Parámetro | Descripción | Fórmula Base |
+|-----------|-------------|--------------|
+| 🔄 **Número de Reynolds** | Determina el régimen de flujo | `Re = ρvD/μ` |
+| ⚡ **Factor de Fricción** | Calculado según el número de Reynolds | `f = f(Re, ε/D)` |
+| 🌊 **Velocidad del Fluido** | Basada en caudal y diámetro de tubería | `v = Q/A` |
+| 📉 **Pérdidas de Energía** | Mayores (fricción) y menores (accesorios) | `h_f = f(L/D)v²/2g` |
+| ⬆️ **Carga Total de Bomba (Ht)** | Altura manométrica total requerida | `Ht = H₂ + h_f + h_m - H₁` |
+| ⚡ **Potencia Requerida** | Hidráulica y potencia de bomba | `P = ρgQHt/η` |
+| 🔍 **NPSH Disponible** | Verificación contra cavitación | `NPSHa = P₁/ρg + v²/2g - Pv/ρg` |
+
+---
 
 ### 🎨 **Interfaz Gráfica Moderna**
 
-- **Tema Oscuro Profesional**: Reducción de fatiga visual
-- **Visualización Interactiva**: Diagrama esquemático del sistema
-- **Zoom y Navegación**: Controles para explorar el diagrama
-- **Leyenda Completa**: Símbolos y descripciones detalladas
-- **Resultados Organizados**: Principales y detallados en pestañas
+<div align="center">
+
+| Característica | Beneficio |
+|---------------|-----------|
+| 🌙 **Tema Oscuro Profesional** | Reducción de fatiga visual |
+| 🖼️ **Visualización Interactiva** | Diagrama esquemático del sistema |
+| 🔍 **Zoom y Navegación** | Controles para explorar el diagrama |
+| 📋 **Leyenda Completa** | Símbolos y descripciones detalladas |
+| 📊 **Resultados Organizados** | Principales y detallados en pestañas |
+
+</div>
+
+---
 
 ### 📊 **Visualización del Sistema**
 
-- **Diagrama Esquemático**: Representación visual del sistema
-- **Tanques de Entrada/Salida**: Con elevaciones etiquetadas
-- **Tuberías**: Con longitudes y orientaciones correctas
-- **Accesorios**: Codos, válvulas, tees con ubicación inteligente
-- **Líneas de Elevación**: Diferencia de altura visual
-- **Referencia de Elevación 0**: Línea base para mediciones
+<div align="center">
+
+```mermaid
+graph TD
+    A[Tanque de Entrada] --> B[Tramo de Tubería 1]
+    B --> C[Accesorios]
+    C --> B
+    B --> D[Bomba]
+    D --> E[Tramo de Tubería 2]
+    E --> F[Tanque de Salida]
+    
+    style A fill:#e1f5fe
+    style F fill:#e8f5e8
+    style D fill:#fff3e0
+```
+
+</div>
+
+**Componentes Visuales:**
+- 🏺 **Tanques de Entrada/Salida**: Con elevaciones etiquetadas
+- 📏 **Tuberías**: Con longitudes y orientaciones correctas
+- 🔧 **Accesorios**: Codos, válvulas, tees con ubicación inteligente
+- 📐 **Líneas de Elevación**: Diferencia de altura visual
+- 🎯 **Referencia de Elevación 0**: Línea base para mediciones
+
+
+---
 
 ### 🔧 **Configuración Flexible**
 
-- **Fluidos Predefinidos**: Agua, aceites, etc. con propiedades reales
-- **Múltiples Tramos**: Configuración de sistemas complejos
-- **Accesorios Variados**: Codos, válvulas, tees con factores K
-- **Puntos del Sistema**: Elevaciones y presiones personalizadas
-- **Unidades Consistentes**: Sistema métrico decimal
+<div align="center">
+
+| Configuración | Opciones | Personalización |
+|---------------|----------|-----------------|
+| 🌊 **Fluidos** | Agua, aceites, etc. | Propiedades reales |
+| 📏 **Tramos** | Múltiples | Sistemas complejos |
+| 🔗 **Accesorios** | Codos, válvulas, tees | Factores K |
+| 📍 **Puntos** | Elevaciones, presiones | Personalizables |
+| 📐 **Unidades** | Métrico decimal | Consistentes |
+
+</div>
+
+---
 
 ## 🔧 Requisitos del Sistema
 
-### Mínimos Requeridos
+### 💻 **Mínimos Requeridos**
 
-- **Sistema Operativo**: Windows 10+, macOS 10.14+, Ubuntu 18.04+
-- **Memoria RAM**: 4 GB mínimo
-- **Espacio en Disco**: 100 MB disponibles
-- **Procesador**: Multi-core recomendado
-- **Pantalla**: 1280x720 resolución mínima
+<div align="center">
 
-### Para Desarrollo
+| Componente | Requisito Mínimo | Recomendado |
+|------------|-----------------|-------------|
+| 🖥️ **Sistema Operativo** | Windows 10+, macOS 10.14+, Ubuntu 18.04+ | Última versión |
+| 🧠 **Memoria RAM** | 4 GB | 8 GB+ |
+| 💾 **Espacio en Disco** | 100 MB | 500 MB+ |
+| ⚡ **Procesador** | Multi-core | Multi-core rápido |
+| 🖼️ **Pantalla** | 1280x720 | 1920x1080+ |
 
-- **Python**: 3.8+ con pip
-- **Git**: Para clonar el repositorio
-- **Editor de Código**: VS Code, PyCharm, etc.
+</div>
+
+### 🔨 **Para Desarrollo**
+
+```bash
+# Instalación de Python 3.8+
+# Windows: Descargar desde https://python.org/downloads/
+# macOS: brew install python3
+# Linux: sudo apt install python3 python3-pip
+
+# Instalación de Git
+# Windows: Descargar desde https://git-scm.com/download/win
+# macOS: brew install git
+# Linux: sudo apt install git
+
+# Clonar el repositorio
+git clone https://github.com/listerineh/pumping-calculation-system.git
+cd pumping-calculation-system
+
+# Instalar dependencias
+pip install -r requirements.txt
+
+# Editor de código recomendado
+# VS Code: https://code.visualstudio.com/download
+# PyCharm: https://www.jetbrains.com/pycharm/download/
+```
+
+<div align="center">
+
+| Herramienta | Descarga | Comando Instalación |
+|------------|----------|-------------------|
+| 🐍 **Python** | [python.org](https://python.org/downloads/) | `brew install python3` / `sudo apt install python3` |
+| 📦 **pip** | Incluido con Python | `python3 -m pip install --upgrade pip` |
+| 🔄 **Git** | [git-scm.com](https://git-scm.com/download/win) | `brew install git` / `sudo apt install git` |
+| 💻 **VS Code** | [code.visualstudio.com](https://code.visualstudio.com/download) | `brew install visual-studio-code` |
+| � **PyCharm** | [jetbrains.com/pycharm](https://www.jetbrains.com/pycharm/download/) | Descargar desde web |
+
+</div>
 
 ## 🚀 Instalación Rápida
 
@@ -104,8 +207,8 @@ Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENS
 
 ```bash
 # 1. Clonar el repositorio
-git clone <repositorio-url>
-cd proyecto-nay
+git clone https://github.com/listerineh/pumping-calculation-system.git
+cd pumping-calculation-system
 
 # 2. Crear entorno virtual
 python3 -m venv venv
@@ -218,7 +321,7 @@ dist/
 ## 📁 Estructura del Proyecto
 
 ```
-proyecto-nay/
+pumping-calculation-system/
 ├── src/                          ← Código fuente
 │   ├── gui/                     ← Interfaz gráfica
 │   │   ├── main_window.py       ← Ventana principal
