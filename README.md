@@ -1,4 +1,4 @@
-# 🚀 Sistema de Cálculo de Bombeo - Proyecto Nay
+# 🚀 Sistema de Cálculo de Bombeo
 
 <div align="center">
 
@@ -353,7 +353,7 @@ NPSHa = (Patm/ρg) - (Pv/ρg) - hf - hm - (V²/2g)
 
 ## 📄 Licencia
 
-Copyright © 2026 Proyecto Nay
+Copyright © 2026 Listerineh
 
 Este software fue desarrollado para uso personal y educativo con ❤️ para Nayehi.
 
